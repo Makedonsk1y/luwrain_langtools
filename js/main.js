@@ -53,3 +53,55 @@ successBtnNode.addEventListener('click',()=>{
         toastr.options = TOAST_OPTIONS
       });
 })
+
+function handleInput(event) {
+    const text = event.target.value; // Получаем текст из textarea
+    const words = text.trim().split(/\s+/); // Разбиваем текст на слова по пробелам
+    console.log(words); // Выводим массив слов в консоль
+
+    // Проверяем только последнее слово
+    const lastWord = checkLastWord(words);
+    checkSpelling(lastWord); // Проверяем правописание только последнего слова
+}
+
+// Пример функции для проверки правописания слова
+function checkSpelling(word) {
+    // Здесь вы можете реализовать AJAX-запрос для проверки слова на сервере
+    console.log(`Проверка слова: ${word}`);
+    // Пример AJAX-запроса (используя fetch)
+    // fetch('/check-spelling', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ word }),
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //     console.log(data); // Обработка ответа от сервера
+    // });
+}
+
+// Добавляем обработчик события после загрузки страницы
+window.onload = function() {
+    const textarea = document.getElementById('floatingTextarea');
+    textarea.addEventListener('input', handleInput);
+};
+
+function checkLastWord(words) {
+    // Проверяем, что массив не пустой
+    if (words.length === 0) {
+        return ""; // Возвращаем пустую строку, если массив пустой
+    }
+
+    // Получаем последнее слово
+    const lastWord = words[words.length - 1];
+
+    // Проверяем, является ли последнее слово пустым
+    if (lastWord.trim() === "") {
+        return ""; // Возвращаем пустую строку, если последнее слово пустое
+    }
+
+    // Возвращаем последнее слово
+    return lastWord;
+}
