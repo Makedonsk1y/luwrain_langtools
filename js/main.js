@@ -105,3 +105,33 @@ function checkLastWord(words) {
     // Возвращаем последнее слово
     return lastWord;
 }
+
+// Функция для преобразования данных формы в JSON
+function formDataToJSON() {
+    const formData = {
+        text: textAreaNode.value,
+        charCount: charCountNode.innerText
+    };
+    return JSON.stringify(formData);
+}
+
+// Функция для отправки данных на сервер
+function sendDataToServer(jsonData) {
+    // Нужно заменить на адрес сервера
+    fetch('http://127.0.0.1:8080', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: jsonData
+    })
+    .then(response => response.json())
+    .then(data => console.log('Success:', data))
+    .catch((error) => console.error('Error:', error));
+}
+
+// Вызов функции при нажатии на кнопку
+successBtnNode.addEventListener('click', () => {
+    const jsonData = formDataToJSON();
+    sendDataToServer(jsonData);
+});
