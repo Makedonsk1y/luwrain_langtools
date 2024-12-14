@@ -3,6 +3,35 @@ const glossary = [];
 
     let currentWord = null;
 
+    async function checkSpelling(word) {
+        try {
+            const response = await fetch('http://localhost:6492/validation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ word: word }), // Отправляем слово в теле запроса
+            });
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            const data = await response.json(); // Получаем ответ от сервера
+    
+            // Проверяем, правильно ли написано слово
+            if (data.isCorrect) {
+                console.log(`Слово "${word}" написано правильно.`);
+                return false; // Нет необходимости в стилизации
+            } else {
+                console.log(`Слово "${word}" написано неправильно.`);
+                return true; // Нужно стилизовать
+            }
+        } catch (error) {
+            console.error('Ошибка при проверке правописания:', error);
+        }
+    }
+
     function updateText() {
         const editableDiv = document.getElementById('editable');
         const text = editableDiv.innerText;
@@ -18,7 +47,6 @@ const glossary = [];
                 span.innerText = word;
                 span.classList.add('word-' + word.length);
                 span.onclick = showPopupMenu; // Добавляем обработчик клика
-
                 editableDiv.appendChild(span);
             } else {
                 // Если это пробел, добавляем его как текстовый узел
