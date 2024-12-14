@@ -1,4 +1,6 @@
 const swearWords = ["вариант1", "вариант2", "вариант3", "вариант4", "вариант5", "вариант6"];
+const glossary = [];
+
     let currentWord = null;
 
     function updateText() {
@@ -63,7 +65,7 @@ const swearWords = ["вариант1", "вариант2", "вариант3", "в
     function replaceWord(swearWord) {
         if (currentWord) {
             currentWord.className = ''; // Убираем стилизацию
-            currentWord.innerText = swearWord; // Заменяем текущее слово на выбранное слово-паразит
+            currentWord.innerText = swearWord; // Заменяем текущее слово на выбранное 
             currentWord = null; // Сбрасываем текущее слово
         }
         document.getElementById('popupMenu').style.display = 'none'; // Скрываем меню
@@ -80,6 +82,14 @@ const swearWords = ["вариант1", "вариант2", "вариант3", "в
             currentWord = null; // Сбрасываем текущее слово
         }
         document.getElementById('popupMenu').style.display = 'none'; // Скрываем меню
+    };
+
+    document.getElementById('addToGlossaryButton').onclick = function() {
+        if (currentWord) {
+            glossary.push(currentWord.innerText); // Удаляем текущее слово
+        }
+        document.getElementById('popupMenu').style.display = 'none'; // Скрываем меню
+        console.log('Слово ' + currentWord.innerText + ' добавлено в массив');
     };
 
 
@@ -120,6 +130,6 @@ const swearWords = ["вариант1", "вариант2", "вариант3", "в
             }
         });
     }
-    
+
     // Предполагается, что у вас есть элементы с id 'charCount' и 'counterLabel'
     countCharacters();
